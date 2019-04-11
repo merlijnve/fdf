@@ -6,13 +6,13 @@
 #    By: mvan-eng <mvan-eng@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/03/25 19:59:01 by mvan-eng       #+#    #+#                 #
-#    Updated: 2019/04/04 20:19:01 by mvan-eng      ########   odam.nl          #
+#    Updated: 2019/04/08 15:51:05 by mvan-eng      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 FLAGS = -Wall -Wextra -Werror
-SRC = main.c libft/libft.a ft_drawline.c
+SRC = main.c libft/libft.a ft_drawline.c dot_line.c
 
 all: $(NAME)
 
