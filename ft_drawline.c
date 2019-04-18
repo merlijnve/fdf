@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/03 13:41:30 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/04/04 18:40:55 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/04/15 18:55:30 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		deal_key(int key, void *param)
 
 static void	ft_drawline_h(int x0, int y0, int x1, int y1, void *mlx, void *win)
 {
-	line line;
+	t_line line;
 	
 	line.dx = x1 - x0;
 	line.dy = y1 - y0;
@@ -50,7 +50,7 @@ static void	ft_drawline_h(int x0, int y0, int x1, int y1, void *mlx, void *win)
 
 static void	ft_drawline_l(int x0, int y0, int x1, int y1, void *mlx, void *win)
 {
-	line line;
+	t_line line;
 	
 	line.dx = x1 - x0;
 	line.dy = y1 - y0;
@@ -81,21 +81,15 @@ void  		  ft_drawline(int x0, int y0, int x1, int y1, void *mlx, void *win)
 	if (abs(y1 - y0) < abs(x1 - x0))
 	{
 		if (x0 > x1)
-		{
 			ft_drawline_l(x1, y1, x0 , y0, mlx, win);
-		}
 		else
 			ft_drawline_l(x0, y0, x1 , y1, mlx, win);
 	}
 	else
 	{
 		if (y0 > y1)
-		{
 			ft_drawline_h(x1, y1, x0 , y0, mlx, win);
-		}
 		else
-		{
 			ft_drawline_h(x0, y0, x1 , y1, mlx, win);
-		}
 	}
 }
