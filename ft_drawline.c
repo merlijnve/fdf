@@ -6,26 +6,18 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/03 13:41:30 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/04/15 18:55:30 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/02 14:01:43 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		deal_key(int key, void *param)
-{
-	(void)param;
-	if (key == 53)
-		exit(0);
-	return (0);
-}
-
-static void	ft_drawline_h(int x0, int y0, int x1, int y1, void *mlx, void *win)
+static void	ft_drawline_h(t_pnt *p0, t_pnt *p1, t_grh *mlx)
 {
 	t_line line;
 	
-	line.dx = x1 - x0;
-	line.dy = y1 - y0;
+	line.dx = p1->x - p0->x;
+	line.dy = p1->y - p0->y;
 	line.i = 1;
 	if (line.dx < 0)
 	{
@@ -33,11 +25,11 @@ static void	ft_drawline_h(int x0, int y0, int x1, int y1, void *mlx, void *win)
 		line.dx = line.dx * -1;
 	}
 	line.d = 2 * line.dx - line.dy;
-	line.x = x0;
-	line.y = y0;
-	while (line.y <= y1)
+	line.x = p0->x;
+	line.y = p0->y;
+	while (line.y <= p1->y)
 	{
-		mlx_pixel_put(mlx, win, line.x, line.y, 0xffffff);
+		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, 0xffffff);
 		if (line.d > 0)
 		{
 			line.x += line.i;
@@ -48,12 +40,12 @@ static void	ft_drawline_h(int x0, int y0, int x1, int y1, void *mlx, void *win)
 	}
 }
 
-static void	ft_drawline_l(int x0, int y0, int x1, int y1, void *mlx, void *win)
+static void	ft_drawline_l(t_pnt *p0, t_pnt *p1, t_grh *mlx)
 {
 	t_line line;
 	
-	line.dx = x1 - x0;
-	line.dy = y1 - y0;
+	line.dx = p1->x - p0->x;
+	line.dy = p1->x - p0->x;
 	line.i = 1;
 	if (line.dy < 0)
 	{
@@ -61,11 +53,11 @@ static void	ft_drawline_l(int x0, int y0, int x1, int y1, void *mlx, void *win)
 		line.dy = line.dy * -1;
 	}
 	line.d = 2 * line.dy - line.dx;
-	line.y = y0;
-	line.x = x0;
-	while (line.x <= x1)
+	line.y = p0->y;
+	line.x = p0->x;
+	while (line.x <= p1->x)
 	{
-		mlx_pixel_put(mlx, win, line.x, line.y, 0xffffff);
+		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, 0xffffff);
 		if (line.d > 0)
 		{
 			line.y += line.i;
@@ -76,20 +68,20 @@ static void	ft_drawline_l(int x0, int y0, int x1, int y1, void *mlx, void *win)
 	}
 }
 
-void  		  ft_drawline(int x0, int y0, int x1, int y1, void *mlx, void *win)
+void		ft_drawline(t_pnt *p0, t_pnt *p1, t_grh *mlx)
 {
-	if (abs(y1 - y0) < abs(x1 - x0))
+	if (abs(p1->y - p0->y) < abs(p1->x - p0->x))
 	{
-		if (x0 > x1)
-			ft_drawline_l(x1, y1, x0 , y0, mlx, win);
+		if (p0->x > p1->x)
+			ft_drawline_l(p1, p0, mlx);
 		else
-			ft_drawline_l(x0, y0, x1 , y1, mlx, win);
+			ft_drawline_l(p0, p1, mlx);
 	}
 	else
 	{
-		if (y0 > y1)
-			ft_drawline_h(x1, y1, x0 , y0, mlx, win);
+		if (p0->y > p1->y)
+			ft_drawline_h(p1, p0, mlx);
 		else
-			ft_drawline_h(x0, y0, x1 , y1, mlx, win);
+			ft_drawline_h(p0, p1, mlx);
 	}
 }

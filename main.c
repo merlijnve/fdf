@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:39 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/04/18 21:43:45 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/02 20:13:09 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,26 @@ static int	deal_key(int key, void *param)
 	return (0);
 }
 
-int	ft_make_map(char *filename)
-{
-	t_row *map;
-	t_col *test;
+// static int	ft_get_llen()
+// {
+// 	return (0);
+// }
 
-	map = ft_fdf_catch_input(filename);
-	if (map == NULL)
-		return (-1);
-	map = map->next;
-	map = map->next;
-	test = map->c;
-	while (test != NULL)
-	{
-		printf("x: %d, y: %d, z: %d\n", test->x, test->y, test->z);
-		test = test->next;
-	}
-	return (0);
+static t_pnt	**ft_get_input(char *filename, t_grh *mlx)
+{
+	t_pnt	**map;
+
+	map = ft_fdf_catch_input(filename, mlx);
+	//mlx->llen = ft_get_llen(mlx);
+	return (map);
 }
 
 int			main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*win;
-	int		d;
-	int		e;
+	t_grh	*mlx;
+	t_pnt	**map;
 
-	d = 400;
-	e = 400;
+	mlx = (t_grh *)malloc(sizeof(t_grh));
 	// if (argc != 2)
 	// {
 	// 	ft_putendl("Usage: ./a.out [map file]");
@@ -55,16 +47,16 @@ int			main(int argc, char **argv)
 	// }
 	(void)argv;
 	(void)argc;
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 800, 800, "FDF");
-	mlx_key_hook(win, deal_key, (void *)0);
-	if (ft_make_map("test_maps/elem.fdf") == -1)
+	map = ft_get_input("test_maps/elem.fdf", mlx);
+	if (map == NULL)
 	{
 		ft_putstr("Found wrong line length. Exiting\n");
 		return (0);
 	}
-	dot_line(400, 250, 400, 550, 0x00ffff, mlx, win);
-	dot_line(250, 400, 550, 400, 0x00ffff, mlx, win);
-	mlx_loop(mlx);
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, 1000, 1000, "FDF");
+	//ft_show_map(mlx, map);
+	mlx_key_hook(mlx->win, deal_key, (void *)0);
+	mlx_loop(mlx->mlx);
 	return (0);
 }

@@ -5,79 +5,91 @@
 /*                                                     +:+                    */
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/03/28 17:37:50 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/04/18 21:45:04 by mvan-eng      ########   odam.nl         */
+/*   Created: 2019/05/02 15:34:01 by mvan-eng       #+#    #+#                */
+/*   Updated: 2019/05/02 20:07:01 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			ft_col_count(char *line)
+static int		ft_count_pointers(char **p)
 {
-	int		i;
-	char	**row;
+	int c;
 
-	i = 0;
-	row = ft_strsplit(line, ' ');
-	while (row[i] != NULL)
-		i++;
-	return (i);
-}
-
-t_col		*ft_initialize_cols(char *line, t_row *r, int rownr)
-{
-	t_col		*c;
-	static int	len;
-	int			i;
-	t_col		*d;
-	char		**row;
-
-	i = 0;
-	(void)r;
-	if (len == 0)
-		len = ft_col_count(line);
-	if (ft_col_count(line) != len)
-		return (NULL);
-	c = (t_col *)malloc(sizeof(t_col));
-	if (c == NULL)
-		return (NULL);
-	d = c;
-	row = ft_strsplit(line, ' ');
-	while (i < len)
-	{
-		if (i < (len - 1))
-			d->next = (t_col *)malloc(sizeof(t_col));
-		d->x = i;
-		d->y = rownr;
-		d->z = ft_atoi(row[i]);
-		d = d->next;
-		i++;
-	}
+	c = 0;
+	while (p[c] != NULL)
+		c++;
 	return (c);
 }
 
-t_row		*ft_fdf_catch_input(char *filename)
+static t_pnt	*ft_line_to_nrs(char *line, t_grh *mlx, int c)
+{
+	char	**split;
+	t_pnt	*row;
+	int		i;
+
+	i = 0;
+	row = (t_pnt *)malloc(sizeof(t_pnt) * mlx->clen);
+	split = ft_strsplit(line, ' ');
+	while (split[i] != NULL)
+	{
+		row[i].x = i;
+		row[i].y = c;
+		row[i].z = ft_atoi(split[i]);
+		i++;
+	}
+	return (row);
+}
+
+static int		ft_count_grid(int fd, t_grh *mlx)
 {
 	char	*line;
-	t_row	*r;
-	t_row	*d;
-	int		fd;
-	int		rownr;
+	int		ret;
 
-	rownr = 0;
-	fd = open(filename, O_RDWR);
-	r = (t_row *)malloc(sizeof(t_row));
-	d = r;
-	if (r == NULL)
-		return (NULL);
-	while (get_next_line(fd, &line) == 1)
+	ret = 1;
+	mlx->rlen = 0;
+	while (ret == 1)
 	{
-		r->c = ft_initialize_cols(line, r, rownr);
-		r->next = (t_row *)malloc(sizeof(t_row));
-		if (r->c == NULL || r->next == NULL)
-			return (NULL);
-		r = r->next;
-		rownr++;
+		ret = get_next_line(fd, &line);
+		if (mlx->rlen == 0)
+			mlx->clen = ft_count_pointers(ft_strsplit(line, ' '));
+		if (mlx->clen != ft_count_pointers(ft_strsplit(line, ' ')))
+			return (-1);
+		mlx->rlen++;
 	}
-	return (d);
+	return (0);
+} 
+
+static t_pnt		**ft_setup_grid(int fd, t_grh *mlx)
+{
+	t_pnt		**map;
+	int		i;
+	char	*line;
+
+	i = 0;
+	map = (t_pnt **)malloc(sizeof(int *) * (mlx->rlen + 1));
+	map[mlx->rlen] = NULL;
+	while (i < mlx->rlen - 1)
+	{
+		get_next_line(fd, &line);
+		map[i] = ft_line_to_nrs(line, mlx, i);
+		i++;
+	}
+	return (map);
+}
+
+t_pnt		**ft_fdf_catch_input(char *filename, t_grh *mlx)
+{
+	int		fd;
+	t_pnt	**map;
+
+	fd = open(filename, O_RDONLY);
+	if (ft_count_grid(fd, mlx) == -1)
+		return (NULL);
+	close(fd);
+	fd = open(filename, O_RDONLY);
+	map = ft_setup_grid(fd, mlx);
+	if (map == NULL)
+		return (NULL);
+	return (map);
 }

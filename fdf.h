@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/04/18 19:43:39 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/02 19:49:53 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,32 @@
 
 typedef struct	s_line
 {
-	int dx;
-	int dy;
-	int x;
-	int y;
-	int d;
-	int i;
+	int 	dx;
+	int 	dy;
+	int		x;
+	int 	y;
+	int 	d;
+	int 	i;
 }				t_line;
 
-typedef struct	s_column
+typedef struct	s_point
 {
 	int		x;
 	int		y;
 	int		z;
-	void	*next;
-}				t_col;
+}				t_pnt;
 
-typedef struct	s_row
+typedef struct	s_grh
 {
-	t_col	*c;
-	void	*next;
-}				t_row;
+	void	*mlx;
+	void 	*win;
+	int		llen;
+	int		rlen;
+	int		clen;
+}				t_grh;
 
-t_row	*ft_fdf_catch_input(char *filename);
-void	ft_drawline(int x0, int y0, int x1, int y1, void *mlx, void *win);
-void	dot_line(int x1, int y1, int x2, int y2, int color, void *mlx, void *win);
+void	ft_drawline(t_pnt *p0, t_pnt *p1, t_grh *mlx);
+void	ft_show_map(t_grh *mlx, t_pnt **map);
+t_pnt	**ft_fdf_catch_input(char *filename, t_grh *mlx);
 
 #endif
