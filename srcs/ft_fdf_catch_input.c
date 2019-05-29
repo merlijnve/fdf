@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 15:34:01 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/02 20:07:01 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/16 15:43:08 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,23 @@ static t_pnt	*ft_line_to_nrs(char *line, t_grh *mlx, int c)
 	char	**split;
 	t_pnt	*row;
 	int		i;
+	int		t;
 
 	i = 0;
 	row = (t_pnt *)malloc(sizeof(t_pnt) * mlx->clen);
 	split = ft_strsplit(line, ' ');
+	t = (mlx->clen > mlx->rlen) ? mlx->clen : mlx->rlen;
+	mlx->scale = 800 / t;
+	mlx->height = 4;
 	while (split[i] != NULL)
 	{
-		row[i].x = i;
-		row[i].y = c;
-		row[i].z = ft_atoi(split[i]);
+		row[i].x = mlx->scale * i;
+		row[i].y = mlx->scale * c;
+		row[i].z = mlx->height * ft_atoi(split[i]);
+		row[i].color = 0x00fff + 10 * row[i].z;
 		i++;
 	}
+	free(split);
 	return (row);
 }
 
@@ -57,19 +63,20 @@ static int		ft_count_grid(int fd, t_grh *mlx)
 			return (-1);
 		mlx->rlen++;
 	}
+	mlx->rlen--;
 	return (0);
-} 
+}
 
-static t_pnt		**ft_setup_grid(int fd, t_grh *mlx)
+static t_pnt	**ft_setup_grid(int fd, t_grh *mlx)
 {
-	t_pnt		**map;
+	t_pnt	**map;
 	int		i;
 	char	*line;
 
 	i = 0;
 	map = (t_pnt **)malloc(sizeof(int *) * (mlx->rlen + 1));
 	map[mlx->rlen] = NULL;
-	while (i < mlx->rlen - 1)
+	while (i < mlx->rlen)
 	{
 		get_next_line(fd, &line);
 		map[i] = ft_line_to_nrs(line, mlx, i);
@@ -78,7 +85,7 @@ static t_pnt		**ft_setup_grid(int fd, t_grh *mlx)
 	return (map);
 }
 
-t_pnt		**ft_fdf_catch_input(char *filename, t_grh *mlx)
+t_pnt			**ft_fdf_catch_input(char *filename, t_grh *mlx)
 {
 	int		fd;
 	t_pnt	**map;
