@@ -6,13 +6,13 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:27:04 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/23 14:57:17 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/29 22:01:17 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_wasd(int key, t_fdf *fdf)
+static void	ft_wasd(int key, t_fdf *fdf)
 {
 	if (key == 13)
 		ft_translate_map(fdf->mlx, fdf->rmap, 0, -10);
@@ -24,35 +24,11 @@ void	ft_wasd(int key, t_fdf *fdf)
 		ft_translate_map(fdf->mlx, fdf->rmap, 10, 0);
 }
 
-void	ft_preset_views(int key, t_fdf *fdf)
-{
-	if (key == 1)
-	{
-		fdf->ang->x = 0;
-		fdf->ang->y = 0;
-		fdf->ang->z = 90;
-	}
-	if (key == 2)
-	{
-		fdf->ang->x = 10;
-		fdf->ang->y = 0;
-		fdf->ang->z = 45;
-	}
-	if (key == 3)
-	{
-		fdf->ang->x = 0;
-		fdf->ang->y = 30;
-		fdf->ang->z = 30;
-	}
-	if (key == 4)
-	{
-		fdf->ang->x = 0;
-		fdf->ang->y = 0;
-		fdf->ang->z = 0;
-	}
-}
+/*
+**	Handles arrow key functionality (Moving the object)
+*/
 
-void	ft_arrow_keys(int key, t_fdf *fdf)
+static void	ft_arrow_keys(int key, t_fdf *fdf)
 {
 	t_ang *ang;
 
@@ -70,26 +46,22 @@ void	ft_arrow_keys(int key, t_fdf *fdf)
 	}
 }
 
-int		ft_mpress(int button, int x, int y, t_fdf *fdf)
-{
-	if (button != 1)
-		return (0);
-	fdf->flag->mpd = 1;
-	fdf->flag->ix = x;
-	fdf->flag->iy = y;
-	ft_putnbr(fdf->flag->mpd);
-	return (0);
-}
+/*
+**	Collects all keypress handling functions
+*/
 
-int		ft_keypress(int key, t_fdf *fdf)
+int			ft_keypress(int key, t_fdf *fdf)
 {
+	t_grh *mlx;
+
+	mlx = fdf->mlx;
+	ft_wasd(key, fdf);
 	if (key == 53)
 		exit(0);
 	ft_preset_views(key, fdf);
 	ft_arrow_keys(key, fdf);
-	ft_wasd(key, fdf);
-	mlx_clear_window(fdf->mlx->mlx, fdf->mlx->win);
-	ft_calc_points(fdf->mlx, fdf, fdf->ang);
+	mlx_clear_window(mlx->mlx, mlx->win);
+	ft_calc_points(mlx, fdf, fdf->ang);
 	ft_draw_map(fdf);
 	return (0);
 }

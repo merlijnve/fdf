@@ -6,11 +6,15 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:14:16 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/22 20:09:44 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/29 22:09:05 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+**	Draw lines between all points in the grid
+*/
 
 void	ft_connect_dots(t_grh *mlx, t_pnt **map)
 {
@@ -34,6 +38,10 @@ void	ft_connect_dots(t_grh *mlx, t_pnt **map)
 	}
 }
 
+/*
+**	Translate map with a given X and Y offset
+*/
+
 void	ft_translate_map(t_grh *mlx, t_pnt **map, int xt, int yt)
 {
 	int i;
@@ -54,6 +62,10 @@ void	ft_translate_map(t_grh *mlx, t_pnt **map, int xt, int yt)
 	}
 }
 
+/*
+**	Translates the grid to a centered position
+*/
+
 void	ft_translate_mid(t_grh *mlx, t_pnt **rmap)
 {
 	int	ch;
@@ -63,12 +75,17 @@ void	ft_translate_mid(t_grh *mlx, t_pnt **rmap)
 
 	ch = trunc(0.5 * mlx->clen);
 	rh = trunc(0.5 * mlx->rlen);
+	printf("rh: %d, ch: %d\n", rh, ch);
 	xt = rmap[rh][ch - 1].x + (0.5 * (rmap[rh][ch].x - rmap[rh][ch - 1].x));
 	yt = rmap[rh][ch - 1].y + (0.5 * (rmap[rh][ch].y - rmap[rh][ch - 1].y));
 	xt = 1075 - xt;
-	yt = 650 - yt;
+	yt = 650 - yt + mlx->scale;
 	ft_translate_map(mlx, rmap, xt, yt);
 }
+
+/*
+**	Combines the above functions, all functions can be used separately
+*/
 
 void	ft_draw_map(t_fdf *fdf)
 {

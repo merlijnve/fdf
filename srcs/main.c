@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:39 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/23 14:44:22 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/29 20:49:17 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ static int		ft_initialize(t_grh *mlx, char *filename, t_fdf *fdf)
 	return (0);
 }
 
-void	ft_setup_controls(t_fdf *fdf)
+/*
+** Hooks keypress, mousepress, mouserelease and mousemove
+*/
+
+static void		ft_setup_controls(t_fdf *fdf)
 {
 	t_grh *mlx;
 
@@ -78,6 +82,10 @@ void	ft_setup_controls(t_fdf *fdf)
 	mlx_hook(mlx->win, 5, 0, ft_mrelease, fdf);
 	mlx_hook(mlx->win, 6, 0, ft_mmove, fdf);
 }
+
+/*
+**	Initializes grids, hooks controls, sets loop.
+*/
 
 int				main(int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/23 14:56:06 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/29 22:32:27 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,13 @@ typedef struct	s_angles
 	int		z;
 }				t_ang;
 
-typedef struct s_flag
+typedef struct	s_flag
 {
 	int		i;
 	int		mpd;
 	int		ix;
 	int		iy;
 }				t_fl;
-
 
 typedef struct	s_fdf
 {
@@ -76,7 +75,6 @@ void			ft_drawline(t_pnt p0, t_pnt p1, t_grh *mlx);
 void			ft_calc_points(t_grh *mlx, t_fdf *fdf, t_ang *ang);
 t_pnt			**ft_fdf_catch_input(char *filename, t_grh *mlx);
 void			ft_draw_map(t_fdf *fdf);
-void			ft_setup_controls(t_fdf *fdf);
 void			ft_translate_map(t_grh *mlx, t_pnt **map, int xt, int yt);
 void			ft_connect_dots(t_grh *mlx, t_pnt **map);
 void			ft_show_ui(t_fdf *fdf);
@@ -87,5 +85,6 @@ void			ft_preset_views(int key, t_fdf *fdf);
 int				ft_mmove(int x, int y, t_fdf *fdf);
 int				ft_keypress(int key, t_fdf *fdf);
 int				ft_mpress(int button, int x, int y, t_fdf *fdf);
+void			ft_draw_button(int x, int y, char *s, t_fdf *fdf);
 
 #endif

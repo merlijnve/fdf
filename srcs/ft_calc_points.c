@@ -6,11 +6,15 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/03 13:02:56 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/22 20:48:33 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/29 19:42:44 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+**	Adds isometric calculation to projection
+*/
 
 static void	ft_calc_iso(t_pnt *r)
 {
@@ -23,24 +27,29 @@ static void	ft_calc_iso(t_pnt *r)
 	r->y = -r->z + (x - y) * sin(0.523599);
 }
 
+/*
+**	Calculate projection
+*/
+
 static void	ft_calc_math(t_pnt *p, t_pnt *r, t_ang *ang, t_fl *flag)
 {
 	int x;
 
-	// x-axis rotation
 	r->y = p->y * cos(ang->x * M_PI / 180) + p->z * sin(ang->x * M_PI / 180);
 	r->z = p->y * sin(ang->x * M_PI / 180) + p->z * cos(ang->x * M_PI / 180);
-	// y-axis
 	x = r->x;
 	r->x = p->x * cos(ang->y * M_PI / 180) + r->z * sin(ang->y * M_PI / 180);
 	r->z = x * sin(ang->y * M_PI / 180) + r->z * cos(ang->y * M_PI / 180);
-	// z-axis
 	x = r->x;
 	r->x = x * cos(ang->z * M_PI / 180) - r->y * sin(ang->z * M_PI / 180);
 	r->y = x * sin(ang->z * M_PI / 180) + r->y * cos(ang->z * M_PI / 180);
 	if (flag->i == 1)
 		ft_calc_iso(r);
 }
+
+/*
+**	Loop through all points in the grid and calculate new position with angles
+*/
 
 void		ft_calc_points(t_grh *mlx, t_fdf *fdf, t_ang *ang)
 {
