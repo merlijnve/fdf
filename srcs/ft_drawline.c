@@ -6,11 +6,36 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/03 13:41:30 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/21 15:27:20 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/31 14:46:36 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+int			ft_rgb_itp(t_pnt p0, t_pnt p1, int x)
+{
+	int		d;
+	double	dx;
+	int		r;
+	int		g;
+	int		b;
+
+	dx = p0.x - p1.x;
+	if (dx == 0)
+		dx = 0.01;
+	d = (p1.x - x) / dx;
+	p0.r = p0.color / pow(256, 2);
+	p0.g = (p0.color / 256) % 256;
+	p0.b = p0.color % 256;
+	p1.r = p1.color / pow(256, 2);
+	p1.g = (p1.color / 256) % 256;
+	p1.b = p1.color % 256;
+	r = p0.r + (p1.r - p0.r) * x;
+	g = p0.g + (p1.g - p0.g) * x;
+	b = p0.b + (p1.b - p0.b) * x;
+	r = pow(256, 2) * r + 256 * g + b;
+	return (r);
+}
 
 static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_grh *mlx)
 {
@@ -29,7 +54,8 @@ static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_grh *mlx)
 	line.y = p0.y;
 	while (line.y <= p1.y)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, 0xffffff);
+		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y,
+		ft_rgb_itp(p1, p0, line.x));
 		if (line.d > 0)
 		{
 			line.x += line.i;
@@ -57,7 +83,8 @@ static void	ft_drawline_l(t_pnt p0, t_pnt p1, t_grh *mlx)
 	line.x = p0.x;
 	while (line.x <= p1.x)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, 0xffffff);
+		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y,
+		ft_rgb_itp(p1, p0, line.x));
 		if (line.d > 0)
 		{
 			line.y += line.i;

@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:27:04 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/29 22:01:17 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/30 16:19:55 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int			ft_keypress(int key, t_fdf *fdf)
 	mlx = fdf->mlx;
 	ft_wasd(key, fdf);
 	if (key == 53)
+	{
 		exit(0);
+	}
 	ft_preset_views(key, fdf);
 	ft_arrow_keys(key, fdf);
 	mlx_clear_window(mlx->mlx, mlx->win);

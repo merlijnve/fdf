@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/03 13:02:56 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/29 19:42:44 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/31 14:45:36 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ static void	ft_calc_iso(t_pnt *r)
 **	Calculate projection
 */
 
-static void	ft_calc_math(t_pnt *p, t_pnt *r, t_ang *ang, t_fl *flag)
+static void	ft_calc_math(t_pnt *p, t_pnt *r, t_ang *ang, t_fdf *fdf)
 {
-	int x;
+	int		x;
+	t_fl	*flag;
 
+	flag = fdf->flag;
 	r->y = p->y * cos(ang->x * M_PI / 180) + p->z * sin(ang->x * M_PI / 180);
 	r->z = p->y * sin(ang->x * M_PI / 180) + p->z * cos(ang->x * M_PI / 180);
 	x = r->x;
@@ -57,7 +59,9 @@ void		ft_calc_points(t_grh *mlx, t_fdf *fdf, t_ang *ang)
 	int		j;
 	t_pnt	**map;
 	t_pnt	**rmap;
+	int		d;
 
+	d = mlx->zmax - mlx->zmin;
 	j = 0;
 	i = 0;
 	map = fdf->map;
@@ -66,7 +70,8 @@ void		ft_calc_points(t_grh *mlx, t_fdf *fdf, t_ang *ang)
 	{
 		while (j < mlx->clen)
 		{
-			ft_calc_math(&map[i][j], &rmap[i][j], ang, fdf->flag);
+			ft_calc_math(&map[i][j], &rmap[i][j], ang, fdf);
+			rmap[i][j].color = ft_rgb_itp(*mlx->zmin, *mlx->zmax, map[i][j].z);
 			j++;
 		}
 		j = 0;

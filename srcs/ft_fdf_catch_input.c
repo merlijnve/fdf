@@ -6,24 +6,39 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 15:34:01 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/29 20:27:32 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/31 14:42:20 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*
-**	Counts the amount of pointers in a null terminated memory block
-*/
-
-static int		ft_count_pointers(char **p)
+int				ft_extr(t_pnt **map, t_grh *mlx)
 {
-	int c;
+	int i;
+	int j;
 
-	c = 0;
-	while (p[c] != NULL)
-		c++;
-	return (c);
+	i = 0;
+	j = 0;
+	if (mlx->yf == 0)
+	{
+		mlx->zmax = &map[0][0];
+		mlx->zmin = &map[0][0];
+		mlx->yf = 1;
+	}
+	while (i < mlx->rlen)
+	{
+		while (j < mlx->clen)
+		{
+			if (map[i][j].z > mlx->zmax->z)
+				mlx->zmax = &map[i][j];
+			if (map[i][j].z < mlx->zmin->z)
+				mlx->zmin = &map[i][j];
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	return (0);
 }
 
 /*
@@ -40,10 +55,14 @@ static int		ft_count_grid(int fd, t_grh *mlx)
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
+		if (ret == -1)
+			return (-1);
 		if (mlx->rlen == 0)
 			mlx->clen = ft_count_pointers(ft_strsplit(line, ' '));
-		if (mlx->clen != ft_count_pointers(ft_strsplit(line, ' ')))
+		if (ret == 1 && mlx->clen != ft_count_pointers(ft_strsplit(line, ' ')))
 			return (-1);
+		if (ret == 1)
+			ft_strdel(&line);
 		mlx->rlen++;
 	}
 	mlx->rlen--;
@@ -66,23 +85,22 @@ static t_pnt	*ft_line_to_nrs(char *line, t_grh *mlx, int c)
 	row = (t_pnt *)malloc(sizeof(t_pnt) * mlx->clen);
 	split = ft_strsplit(line, ' ');
 	t = (mlx->clen > mlx->rlen) ? mlx->clen : mlx->rlen;
-	mlx->scale = 800 / t;
-	mlx->height = 30;
+	mlx->xscale = 800 / t;
+	mlx->height = 25;
 	while (split[i] != NULL)
 	{
-		row[i].x = mlx->scale * i;
-		row[i].y = mlx->scale * c;
+		row[i].x = mlx->xscale * i;
+		row[i].y = mlx->xscale * c;
 		row[i].z = mlx->height * ft_atoi(split[i]);
-		row[i].color = 0x00fff + 10 * row[i].z;
+		ft_strdel(split);
 		i++;
 	}
-	free(split);
 	return (row);
 }
 
 /*
 **	Reads a line from given File Descriptor
-**	(Creates columnsß)
+**	(Creates columns)
 */
 
 static t_pnt	**ft_setup_grid(int fd, t_grh *mlx)
@@ -90,16 +108,24 @@ static t_pnt	**ft_setup_grid(int fd, t_grh *mlx)
 	t_pnt	**map;
 	int		i;
 	char	*line;
+	int		ret;
 
+	ret = 0;
 	i = 0;
 	map = (t_pnt **)malloc(sizeof(int *) * (mlx->rlen + 1));
 	map[mlx->rlen] = NULL;
 	while (i < mlx->rlen)
 	{
-		get_next_line(fd, &line);
+		ret = get_next_line(fd, &line);
+		if (ret == -1)
+			return (NULL);
 		map[i] = ft_line_to_nrs(line, mlx, i);
+		ft_strdel(&line);
 		i++;
 	}
+	ft_extr(map, mlx);
+	mlx->zmax->color = 0x77ff83;
+	mlx->zmin->color = 0xffffff;
 	return (map);
 }
 

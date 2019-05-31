@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/29 22:32:27 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/31 11:51:12 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ typedef struct	s_point
 	int		y;
 	int		z;
 	int		color;
+	int		r;
+	int		g;
+	int		b;
 }				t_pnt;
 
 typedef struct	s_grh
@@ -43,7 +46,11 @@ typedef struct	s_grh
 	void	*win;
 	int		rlen;
 	int		clen;
-	int		scale;
+	int		xscale;
+	int		yscale;
+	int		yf;
+	t_pnt	*zmax;
+	t_pnt	*zmin;
 	int		height;
 }				t_grh;
 
@@ -86,5 +93,6 @@ int				ft_mmove(int x, int y, t_fdf *fdf);
 int				ft_keypress(int key, t_fdf *fdf);
 int				ft_mpress(int button, int x, int y, t_fdf *fdf);
 void			ft_draw_button(int x, int y, char *s, t_fdf *fdf);
+int				ft_rgb_itp(t_pnt p0, t_pnt p1, int x);
 
 #endif

@@ -6,11 +6,35 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/11 18:03:20 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/29 20:05:00 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/05/30 11:41:40 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+**	Draws square
+*/
+
+void	ft_draw_square(t_pnt p, int size, t_fdf *fdf)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < size)
+	{
+		while (j < size)
+		{
+			mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win,
+			p.x + j, p.y + i, p.color);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+}
 
 /*
 **	UI Button drawing
@@ -51,13 +75,20 @@ void	ft_draw_button(int x, int y, char *s, t_fdf *fdf)
 
 void	ft_show_ui(t_fdf *fdf)
 {
-	int x;
-	int y;
+	int		x;
+	int		y;
+	t_pnt	p;
 
 	x = 50;
 	y = 50;
+	p.x = 216;
+	p.y = 359;
+	p.color = 0;
 	ft_draw_button(x, y, "Viewpoint 1", fdf);
 	ft_draw_button(x, y + 50, "Viewpoint 2", fdf);
 	ft_draw_button(x, y + 100, "Top view", fdf);
-	ft_draw_button(x, y + 300, "Isometric view", fdf);
+	ft_draw_button(x, y + 300, "Isometric view ", fdf);
+	ft_putnbr(fdf->flag->i);
+	if (fdf->flag->i == 1)
+		ft_draw_square(p, 8, fdf);
 }
