@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/31 11:51:12 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 19:36:10 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,22 @@ typedef struct	s_grh
 	int		xscale;
 	int		yscale;
 	int		yf;
+	int		ef;
 	t_pnt	*zmax;
 	t_pnt	*zmin;
+	int		ymi;
+	int		yma;
+	int		xma;
+	int		xmi;
 	int		height;
+	int		zoom;
 }				t_grh;
 
 typedef struct	s_angles
 {
-	int		x;
-	int		y;
-	int		z;
+	double	x;
+	double	y;
+	double	z;
 }				t_ang;
 
 typedef struct	s_flag
@@ -67,6 +73,7 @@ typedef struct	s_flag
 	int		mpd;
 	int		ix;
 	int		iy;
+	double	r;
 }				t_fl;
 
 typedef struct	s_fdf
@@ -94,5 +101,6 @@ int				ft_keypress(int key, t_fdf *fdf);
 int				ft_mpress(int button, int x, int y, t_fdf *fdf);
 void			ft_draw_button(int x, int y, char *s, t_fdf *fdf);
 int				ft_rgb_itp(t_pnt p0, t_pnt p1, int x);
+void			ft_arrow_keys(int key, t_fdf *fdf);
 
 #endif

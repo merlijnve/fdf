@@ -6,11 +6,15 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 15:34:01 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/31 14:42:20 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 20:29:35 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+**	Find max z-value, used for color
+*/
 
 int				ft_extr(t_pnt **map, t_grh *mlx)
 {
@@ -85,13 +89,13 @@ static t_pnt	*ft_line_to_nrs(char *line, t_grh *mlx, int c)
 	row = (t_pnt *)malloc(sizeof(t_pnt) * mlx->clen);
 	split = ft_strsplit(line, ' ');
 	t = (mlx->clen > mlx->rlen) ? mlx->clen : mlx->rlen;
-	mlx->xscale = 800 / t;
+	mlx->xscale = 1000 / t;
 	mlx->height = 25;
 	while (split[i] != NULL)
 	{
 		row[i].x = mlx->xscale * i;
 		row[i].y = mlx->xscale * c;
-		row[i].z = mlx->height * ft_atoi(split[i]);
+		row[i].z = ft_atoi(split[i]);
 		ft_strdel(split);
 		i++;
 	}
@@ -124,7 +128,7 @@ static t_pnt	**ft_setup_grid(int fd, t_grh *mlx)
 		i++;
 	}
 	ft_extr(map, mlx);
-	mlx->zmax->color = 0x77ff83;
+	mlx->zmax->color = 0xffff00;
 	mlx->zmin->color = 0xffffff;
 	return (map);
 }

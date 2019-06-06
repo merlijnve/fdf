@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/03 13:02:56 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/31 14:45:36 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 20:31:18 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,22 @@ static void	ft_calc_iso(t_pnt *r)
 static void	ft_calc_math(t_pnt *p, t_pnt *r, t_ang *ang, t_fdf *fdf)
 {
 	int		x;
+	int		y;
+	int		z;
 	t_fl	*flag;
+	double	d;
 
+	d = M_PI / 180;
 	flag = fdf->flag;
-	r->y = p->y * cos(ang->x * M_PI / 180) + p->z * sin(ang->x * M_PI / 180);
-	r->z = p->y * sin(ang->x * M_PI / 180) + p->z * cos(ang->x * M_PI / 180);
+	z = fdf->mlx->height * p->z;
+	r->z = z * cos(ang->y * d) - p->x * sin(ang->y * d);
+	r->x = z * sin(ang->y * d) + p->x * cos(ang->y * d);
+	y = p->y;
+	r->y = y * cos(ang->x * d) - r->z * sin(ang->x * d);
+	r->z = y * sin(ang->x * d) + r->z * cos(ang->x * d);
 	x = r->x;
-	r->x = p->x * cos(ang->y * M_PI / 180) + r->z * sin(ang->y * M_PI / 180);
-	r->z = x * sin(ang->y * M_PI / 180) + r->z * cos(ang->y * M_PI / 180);
-	x = r->x;
-	r->x = x * cos(ang->z * M_PI / 180) - r->y * sin(ang->z * M_PI / 180);
-	r->y = x * sin(ang->z * M_PI / 180) + r->y * cos(ang->z * M_PI / 180);
+	r->x = x * cos(ang->z * d) - r->y * sin(ang->z * d);
+	r->y = x * sin(ang->z * d) + r->y * cos(ang->z * d);
 	if (flag->i == 1)
 		ft_calc_iso(r);
 }
@@ -71,7 +76,8 @@ void		ft_calc_points(t_grh *mlx, t_fdf *fdf, t_ang *ang)
 		while (j < mlx->clen)
 		{
 			ft_calc_math(&map[i][j], &rmap[i][j], ang, fdf);
-			rmap[i][j].color = ft_rgb_itp(*mlx->zmin, *mlx->zmax, map[i][j].z);
+			rmap[i][j].color = ft_rgb_itp(*mlx->zmin, *mlx->zmax,
+			map[i][j].z * mlx->height);
 			j++;
 		}
 		j = 0;

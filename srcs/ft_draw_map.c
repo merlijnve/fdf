@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:14:16 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/30 16:45:38 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 19:47:19 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,50 @@ void	ft_translate_map(t_grh *mlx, t_pnt **map, int xt, int yt)
 	}
 }
 
+void	ft_save_extrs(t_grh *mlx, t_pnt p)
+{
+	if (mlx->ef == 0)
+	{
+		mlx->ymi = p.y;
+		mlx->yma = p.y;
+		mlx->xmi = p.x;
+		mlx->xma = p.x;
+	}
+	if (p.y > mlx->yma)
+		mlx->yma = p.y;
+	if (p.y < mlx->ymi)
+		mlx->ymi = p.y;
+	if (p.x > mlx->xma)
+		mlx->xma = p.x;
+	if (p.x < mlx->xmi)
+		mlx->xmi = p.x;
+}
+
 /*
 **	Translates the grid to a centered position
 */
 
 void	ft_translate_mid(t_grh *mlx, t_pnt **rmap)
 {
-	int	ch;
-	int	rh;
+	int i;
+	int j;
 	int xt;
 	int yt;
 
-	ch = trunc(0.5 * mlx->clen);
-	rh = trunc(0.5 * mlx->rlen);
-	xt = rmap[rh][ch - 1].x + (0.5 * (rmap[rh][ch].x - rmap[rh][ch - 1].x));
-	yt = rmap[rh][ch - 1].y + (0.5 * (rmap[rh][ch].y - rmap[rh][ch - 1].y));
-	xt = 1075 - xt;
-	yt = 650 - yt;
+	i = 0;
+	j = 0;
+	while (i < mlx->rlen)
+	{
+		while (j < mlx->clen)
+		{
+			ft_save_extrs(mlx, rmap[i][j]);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	xt = mlx->xmi + 1075 - (mlx->xmi + (0.5 * mlx->xma));
+	yt = mlx->ymi + 650 - (mlx->ymi + (0.5 * mlx->yma));
 	ft_translate_map(mlx, rmap, xt, yt);
 }
 
@@ -88,7 +115,15 @@ void	ft_translate_mid(t_grh *mlx, t_pnt **rmap)
 
 void	ft_draw_map(t_fdf *fdf)
 {
+	int i;
+
+	i = 0;
 	ft_translate_mid(fdf->mlx, fdf->rmap);
 	ft_connect_dots(fdf->mlx, fdf->rmap);
 	ft_show_ui(fdf);
+	while (i < 1300)
+	{
+		mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win, 300, i, 0xffffff);
+		i++;
+	}
 }

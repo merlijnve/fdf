@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/29 14:53:41 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/30 16:32:48 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 20:15:25 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ void	ft_preset_views(int key, t_fdf *fdf)
 {
 	if (key == 10)
 	{
-		fdf->ang->x = 0;
-		fdf->ang->y = 0;
-		fdf->ang->z = 90;
+		fdf->ang->x = 40;
+		fdf->ang->y = -24;
+		fdf->ang->z = 40;
 	}
 	if (key == 20)
 	{
-		fdf->ang->x = 10;
-		fdf->ang->y = 0;
-		fdf->ang->z = 45;
+		fdf->ang->x = 40;
+		fdf->ang->y = -204;
+		fdf->ang->z = 40;
 	}
 	if (key == 30)
 	{
@@ -39,10 +39,11 @@ void	ft_preset_views(int key, t_fdf *fdf)
 	}
 	if (key == 40)
 	{
-		fdf->ang->x = 30;
-		fdf->ang->y = 30;
-		fdf->ang->z = 30;
+		fdf->ang->x = 0;
+		fdf->ang->y = 150;
+		fdf->ang->z = 150;
 	}
+	printf("x: %f, y: %f, z: %f\n", fdf->ang->x, fdf->ang->y, fdf->ang->z);
 }
 
 void	ft_preset_views_area(int x, int y, t_fdf *fdf)
@@ -57,6 +58,13 @@ void	ft_preset_views_area(int x, int y, t_fdf *fdf)
 	{
 		fdf->flag->i *= -1;
 		ft_preset_views(40, fdf);
+	}
+	if (x > 50 && x < 255 && y > 400 && y < 425)
+	{
+		if (fdf->flag->r == 2)
+			fdf->flag->r = 8;
+		else
+			fdf->flag->r = 2;
 	}
 }
 

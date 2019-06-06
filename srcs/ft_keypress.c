@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:27:04 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/30 16:19:55 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 20:18:43 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,26 @@ static void	ft_wasd(int key, t_fdf *fdf)
 **	Handles arrow key functionality (Moving the object)
 */
 
-static void	ft_arrow_keys(int key, t_fdf *fdf)
+void		ft_arrow_keys(int key, t_fdf *fdf)
 {
 	t_ang *ang;
 
 	ang = fdf->ang;
-	if (key == 123 || key == 124 || key == 125 || key == 126)
+	if (((key > 122 && key < 127) || (key == 808 || key == 909)) &&
+	fdf->flag->i != 1)
 	{
 		if (key == 123)
-			ang->y -= 3;
+			ang->y -= fdf->flag->r;
 		if (key == 124)
-			ang->y += 3;
+			ang->y += fdf->flag->r;
 		if (key == 125)
-			ang->z -= 3;
+			ang->z -= fdf->flag->r;
 		if (key == 126)
-			ang->z += 3;
+			ang->z += fdf->flag->r;
+		if (key == 808)
+			ang->x -= fdf->flag->r;
+		if (key == 909)
+			ang->x += fdf->flag->r;
 	}
 }
 
@@ -57,9 +62,7 @@ int			ft_keypress(int key, t_fdf *fdf)
 	mlx = fdf->mlx;
 	ft_wasd(key, fdf);
 	if (key == 53)
-	{
 		exit(0);
-	}
 	ft_preset_views(key, fdf);
 	ft_arrow_keys(key, fdf);
 	mlx_clear_window(mlx->mlx, mlx->win);

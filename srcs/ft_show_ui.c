@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/11 18:03:20 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/30 11:41:40 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 20:12:02 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	Draws square
 */
 
-void	ft_draw_square(t_pnt p, int size, t_fdf *fdf)
+void	ft_draw_square(int x, int y, int size, t_fdf *fdf)
 {
 	int i;
 	int j;
@@ -28,7 +28,7 @@ void	ft_draw_square(t_pnt p, int size, t_fdf *fdf)
 		while (j < size)
 		{
 			mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win,
-			p.x + j, p.y + i, p.color);
+			x + j, y + i, 0x0);
 			j++;
 		}
 		j = 0;
@@ -70,6 +70,42 @@ void	ft_draw_button(int x, int y, char *s, t_fdf *fdf)
 }
 
 /*
+**	Drawing the arrow buttons for rotating
+*/
+
+void	ft_draw_arrow_buttons(t_fdf *fdf, int x, int y)
+{
+	t_grh *mlx;
+
+	mlx = fdf->mlx;
+	ft_draw_button(x, y + 450, " < ", fdf);
+	ft_draw_button(x + 80, y + 450, " > ", fdf);
+	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 453, 0xffffff, "X");
+	ft_draw_button(x, y + 500, " < ", fdf);
+	ft_draw_button(x + 80, y + 500, " > ", fdf);
+	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 503, 0xffffff, "Y");
+	ft_draw_button(x, y + 550, " < ", fdf);
+	ft_draw_button(x + 80, y + 550, " > ", fdf);
+	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 553, 0xffffff, "Z");
+}
+
+/*
+**	Updating all the angles
+*/
+
+void	ft_show_angles(t_fdf *fdf)
+{
+	t_grh	*mlx;
+	t_ang	*ang;
+
+	mlx = fdf->mlx;
+	ang = fdf->ang;
+	mlx_string_put(mlx->mlx, mlx->win, 200, 500, 0xffffff, ft_itoa(ang->x));
+	mlx_string_put(mlx->mlx, mlx->win, 200, 550, 0xffffff, ft_itoa(ang->y));
+	mlx_string_put(mlx->mlx, mlx->win, 200, 600, 0xffffff, ft_itoa(ang->z));
+}
+
+/*
 **	drawing the menu
 */
 
@@ -77,18 +113,20 @@ void	ft_show_ui(t_fdf *fdf)
 {
 	int		x;
 	int		y;
-	t_pnt	p;
 
 	x = 50;
 	y = 50;
-	p.x = 216;
-	p.y = 359;
-	p.color = 0;
 	ft_draw_button(x, y, "Viewpoint 1", fdf);
-	ft_draw_button(x, y + 50, "Viewpoint 2", fdf);
+	ft_draw_button(x, y + 50, "Turn upside down", fdf);
 	ft_draw_button(x, y + 100, "Top view", fdf);
 	ft_draw_button(x, y + 300, "Isometric view ", fdf);
-	ft_putnbr(fdf->flag->i);
+	ft_draw_button(x, y + 350, "Rotate speed 4x ", fdf);
+	mlx_string_put(fdf->mlx->mlx, fdf->mlx->win, x, y + 410, 0xffffff,
+	"Rotating:    Degrees:");
+	ft_draw_arrow_buttons(fdf, x, y);
+	ft_show_angles(fdf);
 	if (fdf->flag->i == 1)
-		ft_draw_square(p, 8, fdf);
+		ft_draw_square(216, 359, 8, fdf);
+	if (fdf->flag->r == 8)
+		ft_draw_square(230, 409, 8, fdf);
 }

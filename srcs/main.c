@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:39 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/31 14:09:45 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 20:23:15 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,6 @@ static void		ft_initialize_rmap(t_fdf *fdf)
 
 static int		ft_initialize(t_grh *mlx, char *filename, t_fdf *fdf)
 {
-	t_ang	*ang;
-
-	ang = (t_ang *)malloc(sizeof(t_ang));
-	ang->x = 0;
-	ang->y = 0;
-	ang->z = 30;
 	fdf->map = ft_fdf_catch_input(filename, mlx);
 	if (fdf->map == NULL)
 	{
@@ -57,13 +51,14 @@ static int		ft_initialize(t_grh *mlx, char *filename, t_fdf *fdf)
 	mlx->win = mlx_new_window(mlx->mlx, 1800, 1300, "FDF");
 	fdf->mlx = mlx;
 	ft_initialize_rmap(fdf);
-	fdf->ang = ang;
 	fdf->mlx = mlx;
 	fdf->flag = (t_fl *)malloc(sizeof(t_fl));
 	fdf->flag->i = -1;
 	fdf->flag->mpd = 0;
+	fdf->flag->r = 2;
 	fdf->mlx->yf = 0;
-	ft_calc_points(mlx, fdf, ang);
+	fdf->mlx->zoom = 1;
+	ft_calc_points(mlx, fdf, fdf->ang);
 	ft_draw_map(fdf);
 	return (0);
 }
@@ -91,17 +86,21 @@ int				main(int argc, char **argv)
 {
 	t_grh	*mlx;
 	t_fdf	*fdf;
+	t_ang	*ang;
 
+	ang = (t_ang *)malloc(sizeof(t_ang));
 	fdf = (t_fdf *)malloc(sizeof(t_fdf));
 	mlx = (t_grh *)malloc(sizeof(t_grh));
-	(void)argc;
-	(void)argv;
-	// if (argc != 2)
-	// {
-	// 	ft_putendl("Usage: ./a.out [map file]");
-	// 	return (0);
-	// }
-	if (ft_initialize(mlx, "test_maps/pylone.fdf", fdf) == -1)
+	ang->x = 0;
+	ang->y = 0;
+	ang->z = 30;
+	fdf->ang = ang;
+	if (argc != 2)
+	{
+		ft_putendl("Usage: ./a.out [map file]");
+		return (0);
+	}
+	if (ft_initialize(mlx, argv[1], fdf) == -1)
 		return (0);
 	ft_setup_controls(fdf);
 	mlx_loop(mlx->mlx);

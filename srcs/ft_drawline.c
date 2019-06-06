@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/03 13:41:30 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/31 14:46:36 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/06 19:41:08 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			ft_rgb_itp(t_pnt p0, t_pnt p1, int x)
 	return (r);
 }
 
-static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_grh *mlx)
+static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_pnt c, t_grh *mlx)
 {
 	t_line	line;
 
@@ -54,8 +54,7 @@ static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_grh *mlx)
 	line.y = p0.y;
 	while (line.y <= p1.y)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y,
-		ft_rgb_itp(p1, p0, line.x));
+		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, c.color);
 		if (line.d > 0)
 		{
 			line.x += line.i;
@@ -66,7 +65,7 @@ static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_grh *mlx)
 	}
 }
 
-static void	ft_drawline_l(t_pnt p0, t_pnt p1, t_grh *mlx)
+static void	ft_drawline_l(t_pnt p0, t_pnt p1, t_pnt c, t_grh *mlx)
 {
 	t_line line;
 
@@ -83,8 +82,7 @@ static void	ft_drawline_l(t_pnt p0, t_pnt p1, t_grh *mlx)
 	line.x = p0.x;
 	while (line.x <= p1.x)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y,
-		ft_rgb_itp(p1, p0, line.x));
+		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, c.color);
 		if (line.d > 0)
 		{
 			line.y += line.i;
@@ -100,15 +98,15 @@ void		ft_drawline(t_pnt p0, t_pnt p1, t_grh *mlx)
 	if (abs(p1.y - p0.y) < abs(p1.x - p0.x))
 	{
 		if (p0.x > p1.x)
-			ft_drawline_l(p1, p0, mlx);
+			ft_drawline_l(p1, p0, p0, mlx);
 		else
-			ft_drawline_l(p0, p1, mlx);
+			ft_drawline_l(p0, p1, p0, mlx);
 	}
 	else
 	{
 		if (p0.y > p1.y)
-			ft_drawline_h(p1, p0, mlx);
+			ft_drawline_h(p1, p0, p0, mlx);
 		else
-			ft_drawline_h(p0, p1, mlx);
+			ft_drawline_h(p0, p1, p0, mlx);
 	}
 }

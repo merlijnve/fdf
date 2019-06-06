@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 14:20:10 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/05/29 22:27:31 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/05 18:35:58 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,17 @@
 
 int	ft_mmove(int x, int y, t_fdf *fdf)
 {
-	int	dx;
+	t_pnt p0;
+	t_pnt p1;
 
-	(void)y;
+	p0.x = x;
+	p0.y = y;
+	//printf("x: %d, y: %d\n", x, y);
 	if (fdf->flag->mpd == 1)
 	{
-		mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win, x, y, 0xffffff);
-		dx = fdf->flag->ix - x;
-		if (dx > 1 || dx < -1)
-		{
-			fdf->flag->ix = x;
-			if (dx > 1)
-				fdf->ang->x += 3;
-			if (dx < -1)
-				fdf->ang->x -= 3;
-			mlx_clear_window(fdf->mlx->mlx, fdf->mlx->win);
-			ft_draw_map(fdf);
-		}
+		p1.x = fdf->flag->ix;
+		p1.y = fdf->flag->iy;
+		ft_drawline(p0, p1, fdf->mlx);
 	}
 	return (0);
 }
