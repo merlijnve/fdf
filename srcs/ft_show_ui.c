@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/11 18:03:20 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 20:12:02 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 15:17:14 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ void	ft_draw_arrow_buttons(t_fdf *fdf, int x, int y)
 	ft_draw_button(x, y + 550, " < ", fdf);
 	ft_draw_button(x + 80, y + 550, " > ", fdf);
 	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 553, 0xffffff, "Z");
+	ft_draw_button(x, y + 650, " /\\ ", fdf);
+	ft_draw_button(x, y + 690, " \\/ ", fdf);
+	mlx_string_put(mlx->mlx, mlx->win, x + 72, y + 680, 0xffffff, "Height");
+	ft_draw_button(x, y + 720, " /\\ ", fdf);
+	ft_draw_button(x, y + 760, " \\/ ", fdf);
+	mlx_string_put(mlx->mlx, mlx->win, x + 72, y + 750, 0xffffff, "Size");
 }
 
 /*

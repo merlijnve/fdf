@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/04/03 13:41:30 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 19:41:08 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 16:04:22 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	ft_drawline_h(t_pnt p0, t_pnt p1, t_pnt c, t_grh *mlx)
 	line.y = p0.y;
 	while (line.y <= p1.y)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, c.color);
+		if (line.x > 300 && line.x < 1800 && line.y > 0 && line.y < 1300)
+			mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, c.color);
 		if (line.d > 0)
 		{
 			line.x += line.i;
@@ -82,7 +83,8 @@ static void	ft_drawline_l(t_pnt p0, t_pnt p1, t_pnt c, t_grh *mlx)
 	line.x = p0.x;
 	while (line.x <= p1.x)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, c.color);
+		if (line.x > 300 && line.x < 1800 && line.y > 0 && line.y < 1300)
+			mlx_pixel_put(mlx->mlx, mlx->win, line.x, line.y, c.color);
 		if (line.d > 0)
 		{
 			line.y += line.i;

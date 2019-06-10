@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 15:34:01 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 20:29:35 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 18:44:23 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,21 @@ static int		ft_count_grid(int fd, t_grh *mlx)
 {
 	char	*line;
 	int		ret;
+	char	**split;
 
 	ret = 1;
 	mlx->rlen = 0;
 	while (ret == 1)
 	{
 		ret = get_next_line(fd, &line);
+		split = ft_strsplit(line, ' ');
 		if (ret == -1)
 			return (-1);
 		if (mlx->rlen == 0)
-			mlx->clen = ft_count_pointers(ft_strsplit(line, ' '));
-		if (ret == 1 && mlx->clen != ft_count_pointers(ft_strsplit(line, ' ')))
+			mlx->clen = ft_count_pointers(split);
+		if (ret == 1 && mlx->clen != ft_count_pointers(split))
 			return (-1);
-		if (ret == 1)
-			ft_strdel(&line);
+		ft_strdel(&line);
 		mlx->rlen++;
 	}
 	mlx->rlen--;
@@ -89,16 +90,17 @@ static t_pnt	*ft_line_to_nrs(char *line, t_grh *mlx, int c)
 	row = (t_pnt *)malloc(sizeof(t_pnt) * mlx->clen);
 	split = ft_strsplit(line, ' ');
 	t = (mlx->clen > mlx->rlen) ? mlx->clen : mlx->rlen;
-	mlx->xscale = 1000 / t;
+	mlx->scale = 1000 / t;
 	mlx->height = 25;
 	while (split[i] != NULL)
 	{
-		row[i].x = mlx->xscale * i;
-		row[i].y = mlx->xscale * c;
+		row[i].x = i;
+		row[i].y = c;
 		row[i].z = ft_atoi(split[i]);
-		ft_strdel(split);
 		i++;
 	}
+	ft_strdel(&line);
+	ft_mapdel((void**)split);
 	return (row);
 }
 
@@ -124,7 +126,6 @@ static t_pnt	**ft_setup_grid(int fd, t_grh *mlx)
 		if (ret == -1)
 			return (NULL);
 		map[i] = ft_line_to_nrs(line, mlx, i);
-		ft_strdel(&line);
 		i++;
 	}
 	ft_extr(map, mlx);
@@ -146,5 +147,6 @@ t_pnt			**ft_fdf_catch_input(char *filename, t_grh *mlx)
 	map = ft_setup_grid(fd, mlx);
 	if (map == NULL)
 		return (NULL);
+	close(fd);
 	return (map);
 }

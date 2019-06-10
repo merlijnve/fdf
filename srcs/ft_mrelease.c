@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/29 14:53:41 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 20:15:25 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 15:27:00 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ void	ft_preset_views(int key, t_fdf *fdf)
 	if (key == 40)
 	{
 		fdf->ang->x = 0;
-		fdf->ang->y = 150;
-		fdf->ang->z = 150;
+		fdf->ang->y = 0;
+		fdf->ang->z = 0;
 	}
-	printf("x: %f, y: %f, z: %f\n", fdf->ang->x, fdf->ang->y, fdf->ang->z);
 }
 
 void	ft_preset_views_area(int x, int y, t_fdf *fdf)
@@ -67,12 +66,6 @@ void	ft_preset_views_area(int x, int y, t_fdf *fdf)
 			fdf->flag->r = 2;
 	}
 }
-
-/*
-**	Stretching based on button clicked
-*/
-
-
 
 /*
 **	Mouse release handling

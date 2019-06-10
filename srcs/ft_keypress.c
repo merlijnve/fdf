@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:27:04 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 20:18:43 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 19:01:14 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void		ft_arrow_keys(int key, t_fdf *fdf)
 	t_ang *ang;
 
 	ang = fdf->ang;
-	if (((key > 122 && key < 127) || (key == 808 || key == 909)) &&
-	fdf->flag->i != 1)
+	if ((key > 122 && key < 127) || (key == 808 || key == 909))
 	{
 		if (key == 123)
 			ang->y -= fdf->flag->r;
@@ -62,7 +61,9 @@ int			ft_keypress(int key, t_fdf *fdf)
 	mlx = fdf->mlx;
 	ft_wasd(key, fdf);
 	if (key == 53)
+	{
 		exit(0);
+	}
 	ft_preset_views(key, fdf);
 	ft_arrow_keys(key, fdf);
 	mlx_clear_window(mlx->mlx, mlx->win);

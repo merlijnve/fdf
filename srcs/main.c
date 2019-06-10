@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:39 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 20:23:15 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 19:19:41 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int		ft_initialize(t_grh *mlx, char *filename, t_fdf *fdf)
 	}
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, 1800, 1300, "FDF");
+	mlx->img = mlx_new_image(mlx->mlx, 1800, 1300);
 	fdf->mlx = mlx;
 	ft_initialize_rmap(fdf);
 	fdf->mlx = mlx;
@@ -93,14 +94,16 @@ int				main(int argc, char **argv)
 	mlx = (t_grh *)malloc(sizeof(t_grh));
 	ang->x = 0;
 	ang->y = 0;
-	ang->z = 30;
+	ang->z = 0;
 	fdf->ang = ang;
-	if (argc != 2)
-	{
-		ft_putendl("Usage: ./a.out [map file]");
-		return (0);
-	}
-	if (ft_initialize(mlx, argv[1], fdf) == -1)
+	(void)argc;
+	(void)argv;
+	// if (argc != 2)
+	// {
+	// 	ft_putendl("Usage: ./a.out [map file]");
+	// 	return (0);
+	// }
+	if (ft_initialize(mlx, "tets", fdf) == -1)
 		return (0);
 	ft_setup_controls(fdf);
 	mlx_loop(mlx->mlx);

@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 19:36:10 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 19:15:17 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef struct	s_grh
 {
 	void	*mlx;
 	void	*win;
+	void	*img;
 	int		rlen;
 	int		clen;
-	int		xscale;
-	int		yscale;
+	int		scale;
 	int		yf;
 	int		ef;
 	t_pnt	*zmax;

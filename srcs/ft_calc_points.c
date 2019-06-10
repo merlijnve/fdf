@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/03 13:02:56 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 20:31:18 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/10 15:06:17 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_calc_iso(t_pnt *r)
 	x = r->x;
 	y = r->y;
 	r->x = (x - y) * cos(0.523599);
-	r->y = -r->z + (x - y) * sin(0.523599);
+	r->y = -r->z + (x + y) * sin(0.523599);
 }
 
 /*
@@ -42,9 +42,10 @@ static void	ft_calc_math(t_pnt *p, t_pnt *r, t_ang *ang, t_fdf *fdf)
 	d = M_PI / 180;
 	flag = fdf->flag;
 	z = fdf->mlx->height * p->z;
-	r->z = z * cos(ang->y * d) - p->x * sin(ang->y * d);
-	r->x = z * sin(ang->y * d) + p->x * cos(ang->y * d);
-	y = p->y;
+	x = fdf->mlx->scale * p->x;
+	r->z = z * cos(ang->y * d) - x * sin(ang->y * d);
+	r->x = z * sin(ang->y * d) + x * cos(ang->y * d);
+	y = fdf->mlx->scale * p->y;
 	r->y = y * cos(ang->x * d) - r->z * sin(ang->x * d);
 	r->z = y * sin(ang->x * d) + r->z * cos(ang->x * d);
 	x = r->x;
