@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/23 14:20:10 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/10 13:59:43 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/11 17:50:20 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_mmove(int x, int y, t_fdf *fdf)
 	{
 		p1.x = fdf->flag->ix;
 		p1.y = fdf->flag->iy;
-		ft_drawline(p0, p1, fdf->mlx);
+		ft_drawline(p0, p1, fdf);
 	}
 	return (0);
 }

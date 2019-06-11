@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/10 19:15:17 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/11 19:18:15 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_grh
 	void	*mlx;
 	void	*win;
 	void	*img;
+	char	*adr;
 	int		rlen;
 	int		clen;
 	int		scale;
@@ -85,14 +86,14 @@ typedef struct	s_fdf
 	t_fl	*flag;
 }				t_fdf;
 
-void			ft_drawline(t_pnt p0, t_pnt p1, t_grh *mlx);
+void			ft_drawline(t_pnt p0, t_pnt p1, t_fdf *fdf);
 void			ft_calc_points(t_grh *mlx, t_fdf *fdf, t_ang *ang);
 t_pnt			**ft_fdf_catch_input(char *filename, t_grh *mlx);
 void			ft_draw_map(t_fdf *fdf);
 void			ft_translate_map(t_grh *mlx, t_pnt **map, int xt, int yt);
-void			ft_connect_dots(t_grh *mlx, t_pnt **map);
+void			ft_connect_dots(t_fdf *fdf, t_pnt **map);
 void			ft_show_ui(t_fdf *fdf);
-void			ft_translate_mid(t_grh *mlx, t_pnt **rmap);
+void			ft_translate_mid(t_fdf *fdf, t_pnt **rmap);
 int				ft_mrelease(int button, int x, int y, t_fdf *fdf);
 int				ft_mpress(int button, int x, int y, t_fdf *fdf);
 void			ft_preset_views(int key, t_fdf *fdf);
@@ -102,5 +103,7 @@ int				ft_mpress(int button, int x, int y, t_fdf *fdf);
 void			ft_draw_button(int x, int y, char *s, t_fdf *fdf);
 int				ft_rgb_itp(t_pnt p0, t_pnt p1, int x);
 void			ft_arrow_keys(int key, t_fdf *fdf);
+void			ft_imgpxlput(t_fdf *fdf, int color, int x, int y);
+void			ft_show_txt(t_fdf *fdf);
 
 #endif

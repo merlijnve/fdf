@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/29 14:53:41 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/10 15:27:00 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/11 18:12:03 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_preset_views_area(int x, int y, t_fdf *fdf)
 int		ft_mrelease(int button, int x, int y, t_fdf *fdf)
 {
 	mlx_clear_window(fdf->mlx->mlx, fdf->mlx->win);
+	ft_bzero(fdf->mlx->adr, 1800 * 1300 * 4);
 	ft_preset_views_area(x, y, fdf);
 	if (button == 2)
 		ft_draw_button(x, y, "Made my mvan-eng", fdf);

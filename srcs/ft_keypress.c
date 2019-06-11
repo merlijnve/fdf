@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:27:04 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/10 19:01:14 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/11 18:12:22 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int			ft_keypress(int key, t_fdf *fdf)
 	ft_preset_views(key, fdf);
 	ft_arrow_keys(key, fdf);
 	mlx_clear_window(mlx->mlx, mlx->win);
+	ft_bzero(fdf->mlx->adr, 1800 * 1300 * 4);
 	ft_calc_points(mlx, fdf, fdf->ang);
 	ft_draw_map(fdf);
 	return (0);

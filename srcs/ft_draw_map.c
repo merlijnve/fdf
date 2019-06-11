@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:14:16 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/06 19:47:19 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/11 19:53:09 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 **	Draw lines between all points in the grid
 */
 
-void	ft_connect_dots(t_grh *mlx, t_pnt **map)
+void	ft_connect_dots(t_fdf *fdf, t_pnt **map)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
+	t_grh	*mlx;
 
+	mlx = fdf->mlx;
 	i = 0;
 	j = 0;
 	while (i < mlx->rlen)
@@ -28,9 +30,9 @@ void	ft_connect_dots(t_grh *mlx, t_pnt **map)
 		while (j < mlx->clen)
 		{
 			if (j < mlx->clen - 1)
-				ft_drawline(map[i][j], map[i][j + 1], mlx);
+				ft_drawline(map[i][j], map[i][j + 1], fdf);
 			if (i < mlx->rlen - 1)
-				ft_drawline(map[i][j], map[i + 1][j], mlx);
+				ft_drawline(map[i][j], map[i + 1][j], fdf);
 			j++;
 		}
 		j = 0;
@@ -85,13 +87,15 @@ void	ft_save_extrs(t_grh *mlx, t_pnt p)
 **	Translates the grid to a centered position
 */
 
-void	ft_translate_mid(t_grh *mlx, t_pnt **rmap)
+void	ft_translate_mid(t_fdf *fdf, t_pnt **rmap)
 {
-	int i;
-	int j;
-	int xt;
-	int yt;
+	int		i;
+	int		j;
+	int		xt;
+	int		yt;
+	t_grh	*mlx;
 
+	mlx = fdf->mlx;
 	i = 0;
 	j = 0;
 	while (i < mlx->rlen)
@@ -116,14 +120,18 @@ void	ft_translate_mid(t_grh *mlx, t_pnt **rmap)
 void	ft_draw_map(t_fdf *fdf)
 {
 	int i;
+	int x;
 
+	x = 300;
 	i = 0;
-	ft_translate_mid(fdf->mlx, fdf->rmap);
-	ft_connect_dots(fdf->mlx, fdf->rmap);
-	ft_show_ui(fdf);
+	ft_translate_mid(fdf, fdf->rmap);
+	ft_connect_dots(fdf, fdf->rmap);
 	while (i < 1300)
 	{
-		mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win, 300, i, 0xffffff);
+		ft_imgpxlput(fdf, 0xffffff, 300, i);
 		i++;
 	}
+	ft_show_ui(fdf);
+	mlx_put_image_to_window(fdf->mlx->mlx, fdf->mlx->win, fdf->mlx->img, 0, 0);
+	ft_show_txt(fdf);
 }

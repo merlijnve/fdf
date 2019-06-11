@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/11 18:03:20 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/10 15:17:14 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/11 19:48:27 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	ft_draw_square(int x, int y, int size, t_fdf *fdf)
 	{
 		while (j < size)
 		{
-			mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win,
-			x + j, y + i, 0x0);
+			ft_imgpxlput(fdf, 0x0, i + x, j + y);
 			j++;
 		}
 		j = 0;
@@ -60,13 +59,12 @@ void	ft_draw_button(int x, int y, char *s, t_fdf *fdf)
 				color = 0xdadfe1;
 			if (i > 25)
 				color = 0x5b5b5b;
-			mlx_pixel_put(fdf->mlx->mlx, fdf->mlx->win, x + j, y + i, color);
+			ft_imgpxlput(fdf, color, x + j, y + i);
 			j++;
 		}
 		j = 0;
 		i++;
 	}
-	mlx_string_put(fdf->mlx->mlx, fdf->mlx->win, x + ft_strlen(s), y, 0, s);
 }
 
 /*
@@ -80,19 +78,14 @@ void	ft_draw_arrow_buttons(t_fdf *fdf, int x, int y)
 	mlx = fdf->mlx;
 	ft_draw_button(x, y + 450, " < ", fdf);
 	ft_draw_button(x + 80, y + 450, " > ", fdf);
-	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 453, 0xffffff, "X");
 	ft_draw_button(x, y + 500, " < ", fdf);
 	ft_draw_button(x + 80, y + 500, " > ", fdf);
-	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 503, 0xffffff, "Y");
 	ft_draw_button(x, y + 550, " < ", fdf);
 	ft_draw_button(x + 80, y + 550, " > ", fdf);
-	mlx_string_put(mlx->mlx, mlx->win, x + 52, y + 553, 0xffffff, "Z");
 	ft_draw_button(x, y + 650, " /\\ ", fdf);
 	ft_draw_button(x, y + 690, " \\/ ", fdf);
-	mlx_string_put(mlx->mlx, mlx->win, x + 72, y + 680, 0xffffff, "Height");
-	ft_draw_button(x, y + 720, " /\\ ", fdf);
-	ft_draw_button(x, y + 760, " \\/ ", fdf);
-	mlx_string_put(mlx->mlx, mlx->win, x + 72, y + 750, 0xffffff, "Size");
+	ft_draw_button(x, y + 750, " /\\ ", fdf);
+	ft_draw_button(x, y + 790, " \\/ ", fdf);
 }
 
 /*
@@ -122,7 +115,7 @@ void	ft_show_ui(t_fdf *fdf)
 
 	x = 50;
 	y = 50;
-	ft_draw_button(x, y, "Viewpoint 1", fdf);
+	ft_draw_button(x, y, "View 1 ", fdf);
 	ft_draw_button(x, y + 50, "Turn upside down", fdf);
 	ft_draw_button(x, y + 100, "Top view", fdf);
 	ft_draw_button(x, y + 300, "Isometric view ", fdf);
