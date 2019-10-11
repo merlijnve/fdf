@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/29 14:53:41 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/11 18:12:03 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/27 14:34:22 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void	ft_preset_views(int key, t_fdf *fdf)
 	}
 }
 
+/*
+**	Setting click areas
+*/
+
 void	ft_preset_views_area(int x, int y, t_fdf *fdf)
 {
 	if (x > 50 && x < 196 && y > 50 && y < 75)
@@ -78,6 +82,7 @@ int		ft_mrelease(int button, int x, int y, t_fdf *fdf)
 	ft_preset_views_area(x, y, fdf);
 	if (button == 2)
 		ft_draw_button(x, y, "Made my mvan-eng", fdf);
+	ft_initialize_rmap(fdf);
 	ft_calc_points(fdf->mlx, fdf, fdf->ang);
 	ft_draw_map(fdf);
 	fdf->flag->mpd = 0;

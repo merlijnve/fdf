@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/09 20:14:16 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/11 19:53:09 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/27 16:23:49 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ void	ft_draw_map(t_fdf *fdf)
 {
 	int i;
 	int x;
+	int	j;
 
+	j = 0;
 	x = 300;
 	i = 0;
 	ft_translate_mid(fdf, fdf->rmap);
@@ -134,4 +136,10 @@ void	ft_draw_map(t_fdf *fdf)
 	ft_show_ui(fdf);
 	mlx_put_image_to_window(fdf->mlx->mlx, fdf->mlx->win, fdf->mlx->img, 0, 0);
 	ft_show_txt(fdf);
+	while (j < fdf->mlx->rlen)
+	{
+		ft_memdel((void **)&fdf->rmap[j]);
+		j++;
+	}
+	free(fdf->rmap);
 }

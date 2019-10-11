@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/03/25 18:02:55 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/11 19:18:15 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/27 12:55:07 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "math.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
-# include <stdio.h>
 
 typedef struct	s_line
 {
@@ -105,5 +104,6 @@ int				ft_rgb_itp(t_pnt p0, t_pnt p1, int x);
 void			ft_arrow_keys(int key, t_fdf *fdf);
 void			ft_imgpxlput(t_fdf *fdf, int color, int x, int y);
 void			ft_show_txt(t_fdf *fdf);
+void			ft_initialize_rmap(t_fdf *fdf);
 
 #endif

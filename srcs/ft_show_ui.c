@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/11 18:03:20 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/11 19:48:27 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/26 22:02:09 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,21 @@ void	ft_show_angles(t_fdf *fdf)
 {
 	t_grh	*mlx;
 	t_ang	*ang;
+	char	*x;
+	char	*y;
+	char	*z;
 
 	mlx = fdf->mlx;
 	ang = fdf->ang;
-	mlx_string_put(mlx->mlx, mlx->win, 200, 500, 0xffffff, ft_itoa(ang->x));
-	mlx_string_put(mlx->mlx, mlx->win, 200, 550, 0xffffff, ft_itoa(ang->y));
-	mlx_string_put(mlx->mlx, mlx->win, 200, 600, 0xffffff, ft_itoa(ang->z));
+	x = ft_itoa(ang->x);
+	y = ft_itoa(ang->y);
+	z = ft_itoa(ang->z);
+	mlx_string_put(mlx->mlx, mlx->win, 200, 500, 0xffffff, x);
+	mlx_string_put(mlx->mlx, mlx->win, 200, 550, 0xffffff, y);
+	mlx_string_put(mlx->mlx, mlx->win, 200, 600, 0xffffff, z);
+	free(x);
+	free(y);
+	free(z);
 }
 
 /*

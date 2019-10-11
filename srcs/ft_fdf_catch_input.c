@@ -6,7 +6,7 @@
 /*   By: mvan-eng <mvan-eng@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/05/02 15:34:01 by mvan-eng       #+#    #+#                */
-/*   Updated: 2019/06/10 18:44:23 by mvan-eng      ########   odam.nl         */
+/*   Updated: 2019/06/28 11:24:43 by mvan-eng      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ static int		ft_count_grid(int fd, t_grh *mlx)
 		if (ret == 1 && mlx->clen != ft_count_pointers(split))
 			return (-1);
 		ft_strdel(&line);
+		if (ret == 1)
+			ft_mapdel((void **)split);
 		mlx->rlen++;
 	}
+	ft_strdel(&line);
 	mlx->rlen--;
 	return (0);
 }
@@ -91,7 +94,7 @@ static t_pnt	*ft_line_to_nrs(char *line, t_grh *mlx, int c)
 	split = ft_strsplit(line, ' ');
 	t = (mlx->clen > mlx->rlen) ? mlx->clen : mlx->rlen;
 	mlx->scale = 1000 / t;
-	mlx->height = 25;
+	mlx->height = 10;
 	while (split[i] != NULL)
 	{
 		row[i].x = i;
